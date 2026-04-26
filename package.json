@@ -1,0 +1,32 @@
+{
+  "name": "multipi",
+  "version": "1.0.0",
+  "description": "Multi-agent orchestration system for pi-coding-agent with subagents, web search, and URL fetching",
+  "keywords": ["pi-package", "subagents", "web-search", "fetch-url", "multi-agent", "ollama"],
+  "author": "daryn",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daryn/multipi.git"
+  },
+  "pi": {
+    "extensions": ["./extensions"],
+    "agents": ["./agents"]
+  },
+  "scripts": {
+    "install-agents": "./bin/install-agents.sh copy",
+    "install-agents:dev": "./bin/install-agents.sh symlink",
+    "test": "node --test tests/unit/*.test.ts",
+    "test:integration": "./tests/integration/run.sh",
+    "searxng:start": "docker compose -f searxng/docker-compose.yml up -d",
+    "searxng:stop": "docker compose -f searxng/docker-compose.yml down"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-agent-core": "*",
+    "@mariozechner/pi-ai": "*",
+    "@mariozechner/pi-tui": "*",
+    "typebox": "*"
+  }
+}

@@ -1,0 +1,26 @@
+# SearXNG minimal config for local pi usage
+# See: https://docs.searxng.org/admin/settings/settings.html
+
+use_default_settings: true
+
+server:
+  bind_address: "0.0.0.0"
+  port: 8080
+  secret_key: "1ea9b68daf3c2387b50998004a83c512536251a2728e241c99b91d4ca3d6755c"
+  limiter: false
+  public_instance: false
+
+search:
+  formats:
+    - html
+    - json
+  safe_search: 0
+  autocomplete: ""
+
+ui:
+  static_use_hash: true
+
+outgoing:
+  request_timeout: 15.0
+  max_request_timeout: 30.0
+  useragent_suffix: ""
