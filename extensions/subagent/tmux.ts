@@ -1,6 +1,9 @@
 /**
- * tmux integration for subagent visibility
+ * Tmux integration for subagent visibility.
+ *
  * Opens a dedicated tmux window per subagent so you can watch it work live.
+ * When pi is NOT running inside tmux, this silently returns null — subagents
+ * still run, but no windows are created. See README.md §Tmux Integration.
  */
 import { spawnSync } from "node:child_process";
 import * as fs from "node:fs";

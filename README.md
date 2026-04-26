@@ -12,10 +12,10 @@ npm install -g multipi
 pi install npm:multipi
 
 # Or from git
-pi install git:github.com/daryn/multipi
+pi install git:github.com/Ch3w3y/multipi
 
 # Or local clone
-git clone https://github.com/daryn/multipi.git ~/multipi
+git clone https://github.com/Ch3w3y/multipi.git ~/multipi
 cd ~/multipi
 pi install .
 ```
@@ -71,7 +71,7 @@ multipi/
 ```bash
 pi install npm:multipi
 # Or
-pi install git:github.com/daryn/multipi
+pi install git:github.com/Ch3w3y/multipi
 ```
 
 ### Mode 2: Symlink (development)
@@ -128,3 +128,84 @@ npm publish --access public
 ## License
 
 MIT
+
+---
+
+## Tmux Integration (Optional)
+
+`multipi` integrates with tmux to show each subagent in its own window. This is **automatic when pi runs inside tmux** and **silent when it doesn't**.
+
+### How it works
+
+| Context | Behavior |
+|---------|----------|
+| Outside tmux | Subagents run normally. No tmux windows created. |
+| Inside tmux | Each subagent spawns a `π-{agent}` tmux window. You watch them work live. |
+
+### Starting tmux + pi
+
+```bash
+# Option A: Start tmux, then pi
+tmux new-session -s work
+pi "your task here"
+
+# Option B: Create detached session, run pi, attach later
+tmux new-session -d -s work "cd ~/your-project && pi"
+tmux attach -t work
+```
+
+### Window naming
+
+| Agent | Tmux window name | Example |
+|-------|-------------------|---------|
+| `scout` | `π-scout` | Single lookup |
+| `research` | `π-research` | Deep research |
+| `implementer` | `π-implementer` | Coding task |
+| `orchestrator` | `π-orchestrator` | Chain step 1 |
+| `orchestrator-2` | `π-orchestrator-2` | Chain step 2 (numbered) |
+
+Windows auto-close when the subagent finishes.
+
+### Dashboard widget
+
+When subagents are running, a powerline-style status bar appears above the pi editor:
+
+```
+ π-agents │ ⚡1 orchestrator [kimi-k2.6] │ ⚡2 implementer [devstral-2]
+```
+
+This works in both tmux and non-tmux modes.
+
+### Troubleshooting
+
+**"Subagents work but no windows appear"**
+```bash
+# Check if you're inside tmux
+echo $TMUX
+# If empty, start tmux first:
+tmux new-session -s pi
+```
+
+**"Tmux windows from two pi sessions collide"**
+Both pi instances are in the same tmux session. Use separate sessions:
+```bash
+tmux new-session -s work1 "cd /project/a && pi"
+tmux new-session -s work2 "cd /project/b && pi"
+```
+
+### Optional: auto-tmux wrapper
+
+If you always want pi inside tmux, add this to your shell:
+
+```bash
+# ~/.bashrc or ~/.zshrc
+pi() {
+    if [ -z "$TMUX" ]; then
+        tmux new-session -s multipi "$@" ";"
+    else
+        command pi "$@"
+    fi
+}
+```
+
+Then `pi "your task"` automatically wraps in tmux.

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Multi-agent orchestration system for pi-coding-agent with subagents, web search, and URL fetching",
   "keywords": ["pi-package", "subagents", "web-search", "fetch-url", "multi-agent", "ollama"],
-  "author": "daryn",
+  "author": "Ch3w3y",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/daryn/multipi.git"
+    "url": "https://github.com/Ch3w3y/multipi.git"
   },
   "pi": {
     "extensions": ["./extensions"],
