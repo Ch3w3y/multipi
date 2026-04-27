@@ -1,6 +1,6 @@
 {
   "name": "@ch3w3y/multipi",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Multi-agent orchestration system for pi-coding-agent with subagents, web search, and URL fetching",
   "keywords": [
     "pi-package",
