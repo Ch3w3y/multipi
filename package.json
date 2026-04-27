@@ -1,8 +1,15 @@
 {
   "name": "multipi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Multi-agent orchestration system for pi-coding-agent with subagents, web search, and URL fetching",
-  "keywords": ["pi-package", "subagents", "web-search", "fetch-url", "multi-agent", "ollama"],
+  "keywords": [
+    "pi-package",
+    "subagents",
+    "web-search",
+    "fetch-url",
+    "multi-agent",
+    "ollama"
+  ],
   "author": "Ch3w3y",
   "license": "MIT",
   "repository": {
@@ -13,8 +20,12 @@
     "install-multipi-agents": "./bin/install-agents.sh"
   },
   "pi": {
-    "extensions": ["./extensions"],
-    "agents": ["./agents"]
+    "extensions": [
+      "./extensions"
+    ],
+    "agents": [
+      "./agents"
+    ]
   },
   "scripts": {
     "install-agents": "./bin/install-agents.sh copy",
