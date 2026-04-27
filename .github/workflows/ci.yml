@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke-test:
+    name: Install Smoke Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run smoke test
+        run: |
+          chmod +x tests/install-smoke/test.sh
+          tests/install-smoke/test.sh
+
+  validate-agents:
+    name: Validate Agent Definitions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check all agent frontmatters
+        run: |
+          for f in agents/*.md; do
+            base=$(basename "$f")
+            # Skip non-agent docs
+            if ! head -1 "$f" | grep -q '^---'; then
+              echo "ℹ $base: not an agent file, skipped"
+              continue
+            fi
+            name=$(grep '^name:' "$f" | head -1 || true)
+            model=$(grep '^model:' "$f" | head -1 || true)
+            tools=$(grep '^tools:' "$f" | head -1 || true)
+            desc=$(grep '^description:' "$f" | head -1 || true)
+            if [ -z "$name" ] || [ -z "$model" ] || [ -z "$tools" ] || [ -z "$desc" ]; then
+              echo "✗ $base: missing frontmatter (name, model, tools, description required)"
+              exit 1
+            fi
+            echo "✓ $base"
+          done
+      - name: Check for recursive orchestrator references
+        run: |
+          if grep -q 'agent: orchestrator' skills/orchestrate/SKILL.md 2>/dev/null; then
+            echo "✗ Recursive orchestrator reference found in SKILL.md"
+            exit 1
+          fi
+          echo "✓ No recursive orchestrator references"
+      - name: Verify subagent extension has recursion guard
+        run: |
+          if grep -q 'name !== "subagent"' extensions/subagent/index.ts; then
+            echo "✓ Recursion guard present"
+          else
+            echo "✗ Missing recursion guard"
+            exit 1
+          fi
+      - name: Verify CAPABILITY_MODEL_MAP has all agents
+        run: |
+          for agent in orchestrator research planner implementer reviewer scout worker; do
+            if grep -q "\"$agent\"" extensions/subagent/index.ts; then
+              echo "✓ $agent in CAPABILITY_MODEL_MAP"
+            else
+              echo "✗ $agent missing from CAPABILITY_MODEL_MAP"
+              exit 1
+            fi
+          done
+
+  npm-publish-check:
+    name: NPM Publish Readiness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate package.json
+        run: |
+          node -e "
+          const pkg = require('./package.json');
+          if (!pkg.name?.startsWith('@')) throw new Error('name must be scoped');
+          if (!pkg.version) throw new Error('version required');
+          if (!pkg.license) throw new Error('license required');
+          if (!pkg.repository?.url) throw new Error('repository.url required');
+          if (!pkg.homepage) throw new Error('homepage required');
+          console.log('✓ package.json valid');
+          "
+      - name: Verify tarball excludes dev artifacts
+        run: |
+          mkdir -p /tmp/pack-test && cd /tmp/pack-test
+          npm pack "$GITHUB_WORKSPACE"
+          tar xzf *.tgz
+          cd package
+          if test -f _tasks.md; then echo "✗ _tasks.md in tarball"; exit 1; fi
+          if test -d output; then echo "✗ output/ in tarball"; exit 1; fi
+          if test -f EOF; then echo "✗ stray EOF file in tarball"; exit 1; fi
+          echo "✓ tarball clean"
+        shell: bash

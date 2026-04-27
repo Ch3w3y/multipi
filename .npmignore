@@ -5,3 +5,5 @@ searxng/
 __pycache__/
 *.pyc
 .env*
+_tasks.md
+
