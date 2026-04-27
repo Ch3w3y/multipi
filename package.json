@@ -15,10 +15,10 @@
   "homepage": "https://github.com/Ch3w3y/multipi#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ch3w3y/multipi.git"
+    "url": "git+https://github.com/Ch3w3y/multipi.git"
   },
   "bin": {
-    "install-multipi-agents": "./bin/install-agents.sh"
+    "install-multipi-agents": "bin/install-agents.sh"
   },
   "pi": {
     "extensions": [
@@ -42,5 +42,6 @@
     "@mariozechner/pi-coding-agent": "*",
     "@mariozechner/pi-tui": "*",
     "typebox": "*"
-  }
+  },
+  "readme": "README.md"
 }
