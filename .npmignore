@@ -1,0 +1,7 @@
+notes_app/
+output/
+tests/
+searxng/
+__pycache__/
+*.pyc
+.env*

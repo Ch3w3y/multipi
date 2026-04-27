@@ -9,6 +9,9 @@
     "type": "git",
     "url": "https://github.com/Ch3w3y/multipi.git"
   },
+  "bin": {
+    "install-multipi-agents": "./bin/install-agents.sh"
+  },
   "pi": {
     "extensions": ["./extensions"],
     "agents": ["./agents"]

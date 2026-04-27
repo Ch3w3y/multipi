@@ -22,6 +22,7 @@ As of **2026-04-26**, the following Ollama Cloud models are available and mapped
 | `implementer` | `ollama/devstral-2:123b-cloud` | Purpose-built for code generation, Docker, Makefile, tests |
 | `reviewer` | `ollama/deepseek-v4-flash:cloud` | Fast, adversarial, catches corner cases cheaply |
 | `scout` | `ollama/gemini-3-flash-preview:cloud` | Lowest latency, perfect for narrow read-only lookups |
+| `worker` | `ollama/glm-5.1:cloud` | General-purpose fallback, full tool access, isolated context |
 
 ## Configuration
 
@@ -32,6 +33,6 @@ export OLLAMA_CLOUD_BASE_URL="https://api.ollama.cloud/v1"
 export OLLAMA_CLOUD_API_KEY="your-key"   # optional
 ```
 
-The extension generates a temporary provider override so child `pi` processes hit the cloud endpoint while preserving all model metadata from `models.json`.
+The extension generates a temporary inline provider override so child `pi` processes hit the cloud endpoint directly. Model metadata is preserved from the agent frontmatter and the `CAPABILITY_MODEL_MAP` constant in `extensions/subagent/index.ts`, not read from `models.json` at runtime.
 
-If no cloud env vars are set, subagents fall back to the local Ollama proxy (`http://127.0.0.1:11434/v1`) defined in `models.json`.
+If no cloud env vars are set, subagents fall back to the local Ollama proxy (`http://127.0.0.1:11434/v1`) using the default provider.

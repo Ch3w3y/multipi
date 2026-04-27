@@ -41,6 +41,7 @@ const CAPABILITY_MODEL_MAP: Record<string, string> = {
 	"implementer": "ollama/devstral-2:123b-cloud",
 	"reviewer":    "ollama/deepseek-v4-flash:cloud",
 	"scout":       "ollama/gemini-3-flash-preview:cloud",
+	"worker":      "ollama/glm-5.1:cloud",
 };
 
 function formatTokens(count: number): string {
