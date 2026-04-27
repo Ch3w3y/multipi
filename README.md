@@ -4,6 +4,9 @@
 >
 > Route reasoning, architecture, coding, and review to the models that excel at them — with web search for every endpoint.
 
+ [![npm version](https://badge.fury.io/js/@chewey182%2Fmultipi.svg)](https://www.npmjs.com/package/@chewey182/multipi)
+ [![GitHub](https://img.shields.io/github/last-commit/Ch3w3y/multipi)](https://github.com/Ch3w3y/multipi)
+
 ---
 
 ## Table of Contents
@@ -85,6 +88,7 @@ This isn't just a benchmark curiosity—it has profound economic implications. R
 | **implementer** | Code, tests, Docker, Makefile | `devstral-2` (123B) | Purpose-built for implementation; can fan out parallel instances |
 | **reviewer** | Adversarial QA, red-team checklist | `deepseek-v4-flash` | Fast, cheap, adversarial — catches corner cases in budget |
 | **scout** | Narrow lookups, codebase recon | `gemini-3-flash` | Sub-second latency; answers one question with evidence and stops |
+| **worker** | General-purpose executor, fallback tasks | `glm-5.1` | Full tool access; handles utility work outside the main pipeline |
 
 This mirrors what the vLLM project calls a "Semantic Router" and what production AI gateways implement at the enterprise layer—but **multipi brings it to your local stack**, with zero API spend and full data sovereignty.
 
@@ -169,6 +173,7 @@ Deploy the right model for the right cognitive load:
 | **implementer** | Code, tests, Docker, Makefile | `devstral-2` (123B) | Purpose-built for implementation; can fan out parallel instances |
 | **reviewer** | Adversarial QA, red-team checklist | `deepseek-v4-flash` | Fast, cheap, adversarial — catches corner cases in budget |
 | **scout** | Narrow lookups, codebase recon | `gemini-3-flash` | Sub-second latency; answers one question with evidence and stops |
+| **worker** | General-purpose executor, fallback tasks | `glm-5.1` | Full tool access; handles utility work outside the main pipeline |
 
 Instead of one model doing everything poorly, each task goes to the model that excels at it. Isolated context windows mean no pollution between research prose and code logic.
 
@@ -285,13 +290,15 @@ multipi/
 
 ## Quick Start
 
+## Quick Start
+
 ### 1. Install multipi
 
 ```bash
-# Via pi
-pi install npm:multipi
+# Via npm (preferred)
+pi install npm:@chewey182/multipi
 
-# Or from source
+# Or from GitHub
 pi install git:github.com/Ch3w3y/multipi
 
 # Or local clone
