@@ -1,5 +1,5 @@
 {
-  "name": "multipi",
+  "name": "@ch3w3y/multipi",
   "version": "1.0.1",
   "description": "Multi-agent orchestration system for pi-coding-agent with subagents, web search, and URL fetching",
   "keywords": [
@@ -35,11 +35,10 @@
     "searxng:start": "docker compose -f searxng/docker-compose.yml up -d",
     "searxng:stop": "docker compose -f searxng/docker-compose.yml down"
   },
-  "dependencies": {},
   "peerDependencies": {
-    "@mariozechner/pi-coding-agent": "*",
     "@mariozechner/pi-agent-core": "*",
     "@mariozechner/pi-ai": "*",
+    "@mariozechner/pi-coding-agent": "*",
     "@mariozechner/pi-tui": "*",
     "typebox": "*"
   }
