@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install multipi agents into ~/.pi/agent/agents/
+# Install multipi agents, SYSTEM.md, and skills into ~/.pi/agent/
 # Usage: ./install-agents.sh [--symlink|--copy]
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AGENTS_DIR="$SCRIPT_DIR/agents"
-TARGET_DIR="$HOME/.pi/agent/agents"
+TARGET_AGENTS_DIR="$HOME/.pi/agent/agents"
+TARGET_SKILLS_DIR="$HOME/.pi/agent/skills"
 MODE="${1:-copy}"
 
-echo "Installing multipi agents from $AGENTS_DIR to $TARGET_DIR (mode: $MODE)"
+echo "Installing multipi agents from $AGENTS_DIR to $TARGET_AGENTS_DIR (mode: $MODE)"
 
-mkdir -p "$TARGET_DIR"
+mkdir -p "$TARGET_AGENTS_DIR"
 
 for agent in "$AGENTS_DIR"/*.md; do
     name=$(basename "$agent")
@@ -20,7 +21,7 @@ for agent in "$AGENTS_DIR"/*.md; do
         continue
     fi
     
-    target="$TARGET_DIR/$name"
+    target="$TARGET_AGENTS_DIR/$name"
     
     if [ "$MODE" = "symlink" ]; then
         if [ -e "$target" ] && [ ! -L "$target" ]; then
@@ -35,9 +36,25 @@ for agent in "$AGENTS_DIR"/*.md; do
     fi
 done
 
+# Install SYSTEM.md
 echo ""
-echo "Done. Agents installed."
+echo "Installing SYSTEM.md and skills..."
+mkdir -p "$TARGET_SKILLS_DIR/orchestrate"
+
+if [ "$MODE" = "symlink" ]; then
+    ln -sf "$SCRIPT_DIR/SYSTEM.md" "$HOME/.pi/agent/SYSTEM.md"
+    ln -sf "$SCRIPT_DIR/skills/orchestrate/SKILL.md" "$TARGET_SKILLS_DIR/orchestrate/SKILL.md"
+    echo "  🔗 SYSTEM.md (symlink)"
+    echo "  🔗 skills/orchestrate/SKILL.md (symlink)"
+else
+    cp "$SCRIPT_DIR/SYSTEM.md" "$HOME/.pi/agent/SYSTEM.md"
+    cp "$SCRIPT_DIR/skills/orchestrate/SKILL.md" "$TARGET_SKILLS_DIR/orchestrate/SKILL.md"
+    echo "  📄 SYSTEM.md (copied)"
+    echo "  📄 skills/orchestrate/SKILL.md (copied)"
+fi
+
+echo ""
+echo "Done. All multipi components installed."
 echo "Next steps:"
-echo "  1. pi install npm:multipi          # Standard install"
-echo "  2. pi install git:github.com/Ch3w3y/multipi  # From source"
-echo "  3. multipi start                  # Optional: start SearXNG"
+echo "  npm install @chewey182/multipi          # Standard npm install"
+echo "  pi install git:github.com/Ch3w3y/multipi  # From source"

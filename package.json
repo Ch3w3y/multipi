@@ -26,6 +26,12 @@
     ],
     "agents": [
       "./agents"
+    ],
+    "skills": [
+      "./skills"
+    ],
+    "systemPromptFiles": [
+      "./SYSTEM.md"
     ]
   },
   "scripts": {
