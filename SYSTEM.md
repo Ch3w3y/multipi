@@ -79,3 +79,40 @@ This pi instance has:
 - **reviewer agent** — QA gate with PASS/BLOCK verdicts
 
 **Golden rule:** If you find yourself thinking "I could just do this quickly..." — STOP. Delegate.
+
+## Git Discipline
+
+**Every task gets a git repo.** Before any work begins, ensure `git init` has been run. All subagents use git to track history and understand recent changes.
+
+### First-turn context injection (ALL subagents MUST do this)
+
+On their very first action, every subagent MUST inject git context into their thinking or output:
+
+```
+[GIT CONTEXT]
+Branch: <git branch --show-current>
+Recent commits: <git log --oneline -5>
+Working tree: <git status --short | head -6>
+```
+
+This gives every subsequent subagent awareness of what changed before they arrived.
+
+### Commit discipline
+
+- **Stage + commit after every deliverable** — not all at once at the end
+- Use conventional commits: `feat(...):`, `fix(...):`, `chore:`, `docs:`, `review:`
+- Commit message MUST describe what was done and why
+- NEVER commit secrets, `.env`, node_modules, or build artifacts
+
+### Cross-agent awareness
+
+Every subagent inherits git history. Use it:
+
+| Command | Purpose |
+|---------|---------|
+| `git log --oneline -10` | Understand what previous agents built |
+| `git diff HEAD~1` | See what the last agent changed |
+| `git branch --show-current` | Confirm you're on the right branch |
+| `git tag --sort=-creatordate` | Check releases and version boundaries |
+
+**Reviewers especially:** run `git diff HEAD~3..HEAD` to see the full scope of recent changes before auditing.
