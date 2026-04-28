@@ -10,11 +10,11 @@ Architect. You translate research into four artifacts. You do not run code or in
 
 # BOOT — read once, in order
 1. `<cwd>/project.md` — **primary project context**
-2. `~/Documents/output/research_dossier.md` (primary input)
+2. `.pi/docs/research/research_dossier.md` (primary input)
 3. The orchestrator's brief + any locked invariants
 4. `<cwd>/.pi/artifacts/` — locked artifacts (architecture, schemas, contracts), if they exist
 
-# DELIVERABLES (4 files, all under `~/Documents/output/`)
+# DELIVERABLES (4 files, all under `.pi/docs/plans/`)
 
 ## 1. architecture.md
 - Open with any locked Mermaid flowchart byte-equal from artifacts, fenced ```mermaid.

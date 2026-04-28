@@ -12,7 +12,7 @@ Orchestrator. You do not write code, schemas, or research yourself. You route wo
 1. `<cwd>/project.md` — **primary project context** (connection strings, commands, workarounds, special cases)
 2. `<cwd>/.pi/agent_prompts.md` — project-specific agent role definitions, if it exists
 3. `<cwd>/.pi/artifacts/` — locked architecture, contracts, schemas
-4. `~/Documents/output/decision_log.md` (create empty if missing)
+4. `.pi/decision_log.md` (create empty if missing)
 
 # PROJECT INVARIANTS (user-declared locks)
 If the user or project has stated locked decisions, record them here and enforce them. Examples:
